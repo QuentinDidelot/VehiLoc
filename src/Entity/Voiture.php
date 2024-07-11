@@ -28,7 +28,7 @@ class Voiture
 
     #[ORM\Column]
     private ?int $places = null;
-
+    
     #[ORM\Column]
     private ?bool $manuelle = null;
 
