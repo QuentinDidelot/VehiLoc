@@ -9,6 +9,12 @@ use App\Repository\VoitureRepository;
 
 class VoituresController extends AbstractController
 {
+
+    public function __construct(VoitureRepository $voitureRepository)
+    {
+        $this->voitureRepository = $voitureRepository;
+    }
+    
     /**
      * Page d'accueil, listant les voitures
      */
@@ -21,4 +27,23 @@ class VoituresController extends AbstractController
             'voitures' => $voitures,
         ]);
     }
+
+    /**
+     * Page de détail d'une voiture
+     */
+    #[Route('/voiture/{id}', name: 'app_car')]
+    public function voiture(int $id): Response
+    {
+
+        $voiture = $this->voitureRepository->find($id);
+
+        if(!$voiture) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('voiture.html.twig', [
+            'voiture' => $voiture,
+        ]);
+    }
+
 }
