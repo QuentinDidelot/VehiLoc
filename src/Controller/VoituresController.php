@@ -11,6 +11,8 @@ use App\Entity\Voiture;
 use App\Form\VoitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
+#[Route('/voiture', name: 'app_car')]
+
 class VoituresController extends AbstractController
 {
     private $voitureRepository;
@@ -22,23 +24,11 @@ class VoituresController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * Page d'accueil, listant les voitures
-     */
-    #[Route('/', name: 'app_home')]
-    public function index(): Response
-    {
-        $voitures = $this->voitureRepository->findAll();
-
-        return $this->render('accueil.html.twig', [
-            'voitures' => $voitures,
-        ]);
-    }
 
     /**
      * Page de détail d'une voiture
      */
-    #[Route('/voiture/{id<\d+>}', name: 'app_car')]
+    #[Route('/{id<\d+>}', name:'') ]
     public function voiture(int $id): Response
     {
         $voiture = $this->voitureRepository->find($id);
@@ -55,7 +45,7 @@ class VoituresController extends AbstractController
     /**
      * Formulaire d'ajout d'une voiture
      */
-    #[Route('/voiture/ajouter', name: 'app_car_add')]
+    #[Route('/ajouter', name: '_add')]
     public function ajouterVoiture(Request $request): Response
     {
         $voiture = new Voiture();
@@ -78,7 +68,7 @@ class VoituresController extends AbstractController
     /**
      * Suppression d'une voiture
      */
-    #[Route('/voiture/{id<\d+>}/supprimer', name: 'app_car_delete')]
+    #[Route('/{id<\d+>}/supprimer', name: '_delete')]
     public function supprimerVoiture(int $id): Response
     {
         $voiture = $this->voitureRepository->find($id);
